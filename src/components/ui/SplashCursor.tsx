@@ -143,13 +143,18 @@ export default function SplashCursor({
 
       gl.clearColor(0, 0, 0, 1);
 
-      const halfFloatTexType = isWebGL2
+      type HalfFloatExt = {
+         HALF_FLOAT_OES: number;
+        };
+        
+        const halfFloatTexType = isWebGL2
         ? (gl as WebGL2RenderingContext).HALF_FLOAT
-        : (halfFloat && (halfFloat as OES_texture_half_float ).HALF_FLOAT_OES) || 0;
+        : (halfFloat && (halfFloat as HalfFloatExt).HALF_FLOAT_OES) || 0;
 
-      let formatRGBA: { internalFormat: number; format: number } | null;
-      let formatRG: { internalFormat: number; format: number } | null;
-      let formatR: { internalFormat: number; format: number } | null;
+        let formatRGBA: { internalFormat: number; format: number } | null;
+        let formatRG: { internalFormat: number; format: number } | null;
+        let formatR: { internalFormat: number; format: number } | null;
+      
 
       if (isWebGL2) {
         formatRGBA = getSupportedFormat(gl, (gl as WebGL2RenderingContext).RGBA16F, gl.RGBA, halfFloatTexType);
@@ -170,6 +175,9 @@ export default function SplashCursor({
         formatRG = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
         formatR = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloatTexType);
       }
+      if (!formatRGBA || !formatRG || !formatR) {
+         throw new Error("WebGL format tidak support");
+        }
 
       return {
         gl,
@@ -182,6 +190,7 @@ export default function SplashCursor({
         }
       };
     }
+    
 
     function getSupportedFormat(
       gl: WebGLRenderingContext | WebGL2RenderingContext,
