@@ -1,0 +1,12 @@
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+/** Merge Tailwind classes safely */
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+/** Format a period range for display */
+export function formatPeriod(period: string): string {
+  return period;
+}
