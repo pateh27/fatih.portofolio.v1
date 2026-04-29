@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import type { Profile, ContactLink } from "@/lib/types";
+import SplashCursor from "../ui/SplashCursor";
 
 interface PageLayoutProps {
   children: React.ReactNode;
